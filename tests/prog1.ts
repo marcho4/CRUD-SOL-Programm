@@ -11,7 +11,7 @@ describe("prog1", () => {
 
   const wallet = provider.wallet;
 
-  let name = "Mark's journal";
+  let name = "Mark's journal number 2";
 
   const [journalPDA] = PublicKey.findProgramAddressSync(
     [Buffer.from(name), wallet.publicKey.toBuffer()],
@@ -25,10 +25,16 @@ describe("prog1", () => {
     console.log(`Tx sig ${tx}`);
   });
 
-  it("Creating journal", async () => {
+  it("Updating journal", async () => {
     const tx = await program.methods.updateJournal(name, "Bye Bye World!").accounts({journal: journalPDA}).rpc();
     console.log("Journal updated successfuly!")
     console.log(`Tx sig ${tx}`);
   });
-  
+
+  it("Deleting journal", async () => {
+    const tx = await program.methods.deleteJournal(name).accounts({journal: journalPDA}).rpc();
+    console.log("Journal deleted successfuly!")
+    console.log(`Tx sig ${tx}`);
+  });
+
 });
